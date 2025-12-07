@@ -34,3 +34,4 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('/student/result', [StudentReportController::class, 'show'])
         ->name('student.result');
 });
+//hi i am hafsa
