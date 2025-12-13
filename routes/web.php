@@ -11,7 +11,8 @@ use App\Http\Controllers\AdminRegistrationController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Admin\AttendanceManagementController;
-
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherloginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -88,3 +89,43 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/export', [AttendanceManagementController::class, 'export'])->name('export');
     });
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Teacher Routes
+|--------------------------------------------------------------------------
+*/
+
+// Welcome page (landing page)
+Route::get('/teacher/welcome', function () {
+    return view('teacher.welcome');
+})->name('welcome');
+
+// Registration routes
+Route::get('/teacher/register', function () {
+    return view('teacher.teachers');
+})->name('teacher.register.form');
+
+Route::post('/teacher/register', [TeacherController::class, 'register'])
+    ->name('teacher.register');
+
+// Login routes
+Route::get('/teacher/login', function () {
+    return view('teacher.login');
+})->name('teacher.login.form');
+
+Route::post('/teacher/login', [TeacherloginController::class, 'login'])
+    ->name('teacher.login');
+
+// Dashboard route (protected - requires authentication)
+Route::get('/teacher/dashboard', [TeacherloginController::class, 'dashboard'])
+    ->name('teacher.dashboard');
+
+// Logout route
+Route::post('/teacher/logout', [TeacherloginController::class, 'logout'])
+    ->name('teacher.logout');
+
+// Update 
+Route::put('/teacher/{id}/update', [TeacherController::class, 'update'])
+    ->name('teacher.update');
