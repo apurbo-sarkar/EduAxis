@@ -144,7 +144,8 @@
 
                 <hr class="text-secondary mx-3">
 
-                <a href="#" class="nav-link">
+                <a href="{{ route('student.announcement') }}" 
+                    class="nav-link {{ request()->routeIs('student.announcement') ? 'active' : '' }}">
                     <i class="bi bi-megaphone"></i> Announcements
                 </a>
 

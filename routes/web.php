@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentLoginController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StudentReportController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdminRegistrationController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\AdminDashboardController;
@@ -18,6 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Student Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/student/register', function () {
     return view('student.register');
@@ -45,7 +51,11 @@ Route::middleware(['auth:student'])->group(function () {
         ->name('student.attendance');
     Route::get('/student/result', [StudentReportController::class, 'show'])
         ->name('student.result');
+    Route::get('/student/announcement', [AnnouncementController::class, 'index'])
+        ->name('student.announcement');
 });
+
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
