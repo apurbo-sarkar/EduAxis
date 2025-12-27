@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Student;
 use App\Models\Mathematics;
 use App\Models\EnglishLanguage;
@@ -12,14 +13,20 @@ class StudentReportController extends Controller
     public function show()
     {
         $studentId = auth()->id();
+        
+        // Get student info including status
+        $student = Student::find($studentId);
+        
         $math = Mathematics::where('student_id', $studentId)->first();
         $english = EnglishLanguage::where('student_id', $studentId)->first();
         $literature = Literature::where('student_id', $studentId)->first();
+        
         $subjects = [
             'Mathematics' => $math,
             'English Language' => $english,
             'Literature' => $literature
         ];
+        
         $totalMarks = 0;
         $subjectCount = 0;
 
@@ -29,16 +36,21 @@ class StudentReportController extends Controller
                 $subjectCount++;
             }
         }
+        
         $overallAverage = $subjectCount ? round($totalMarks / $subjectCount, 2) : 0;
         $overallGrade = $this->calculateGrade($overallAverage);
 
         return view('student.result', [
             'studentId' => $studentId,
+            'student' => $student,
             'subjects' => $subjects,
             'overallAverage' => $overallAverage,
             'overallGrade' => $overallGrade,
+            'academicStatus' => $student->academic_status ?? null,
+            'statusRemarks' => $student->status_remarks ?? null,
         ]);
     }
+    
     private function calculateGrade($marks)
     {
         if ($marks >= 90) return 'A';

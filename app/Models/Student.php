@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Student extends Authenticatable
-
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
+    protected $table = 'students';
     protected $primaryKey = 'student_id';
-    public $incrementing = true;
-    protected $keyType = 'int';
 
     protected $fillable = [
         'full_name',
@@ -22,6 +21,7 @@ class Student extends Authenticatable
         'student_class',
         'blood_group',
         'student_email',
+        'password',
         'parent1_name',
         'parent1_phone',
         'parent1_email',
@@ -32,12 +32,8 @@ class Student extends Authenticatable
         'emergency_contact_phone',
         'medical_notes',
         'terms_agreed',
-        'password',
-    ];
-
-    protected $casts = [
-        'date_of_birth' => 'date',
-        'terms_agreed' => 'boolean',
+        'academic_status',
+        'status_remarks',
     ];
 
     protected $hidden = [
@@ -45,20 +41,23 @@ class Student extends Authenticatable
         'remember_token',
     ];
 
-    public function getAuthIdentifierName()
+    protected $casts = [
+        'date_of_birth' => 'date',
+        'terms_agreed' => 'boolean',
+    ];
+
+    public function mathematics()
     {
-        return 'student_id';
+        return $this->hasOne(Mathematics::class, 'student_id', 'student_id');
     }
 
-    public function setPasswordAttribute($value)
+    public function englishLanguage()
     {
-        $this->attributes['password'] = bcrypt($value);
+        return $this->hasOne(EnglishLanguage::class, 'student_id', 'student_id');
     }
 
-    public function attendances()
+    public function literature()
     {
-        return $this->hasMany(\App\Models\Attendance::class, 'student_id', 'student_id');
+        return $this->hasOne(Literature::class, 'student_id', 'student_id');
     }
 }
-
-

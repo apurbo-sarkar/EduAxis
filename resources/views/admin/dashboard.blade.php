@@ -208,6 +208,9 @@
         @if (isset($features) && count($features) > 0)
             <div class="grid">
                 @foreach($features ?? [] as $feature)
+                    {{-- This line deletes the fee module from the display --}}
+                    @if(isset($feature['route_name']) && $feature['route_name'] == 'admin.fee.index') @continue @endif
+
                     <div class="card">
                         <i class="{{ $feature['icon'] ?? 'fas fa-cog' }}"></i>
                         <h3>{{ $feature['title'] ?? 'Feature' }}</h3>

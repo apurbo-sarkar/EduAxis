@@ -14,6 +14,8 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Admin\AttendanceManagementController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherloginController;
+use App\Http\Controllers\Admin\ScheduleManagementController;
+use App\Http\Controllers\Admin\StudentReportManagementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,38 +58,30 @@ Route::middleware(['auth:student'])->group(function () {
 });
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
 |--------------------------------------------------------------------------
 */
 
-
 Route::get('/admin/register', function () {
     return view('admin.register');
 })->name('admin.register');
 
-
 Route::post('/admin/register', [AdminRegistrationController::class, 'store'])
     ->name('admin.register.store');
-
-
-
 
 // Admin login routes
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.attempt');
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-
 // Admin dashboard (protected)
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
    
     // Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
-
-
 
     // Attendance Management Routes
     Route::prefix('attendance')->name('attendance.')->group(function () {
@@ -98,8 +92,28 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::post('/mark', [AttendanceManagementController::class, 'mark'])->name('mark');
         Route::get('/export', [AttendanceManagementController::class, 'export'])->name('export');
     });
-});
 
+    // Schedule Management Routes
+    Route::prefix('schedule')->name('schedule.')->group(function () {
+        Route::get('/', [ScheduleManagementController::class, 'index'])->name('index');
+        Route::get('/get-schedules', [ScheduleManagementController::class, 'getClassSchedules'])->name('get-schedules');
+        Route::post('/store', [ScheduleManagementController::class, 'storeSchedule'])->name('store');
+        Route::get('/edit/{id}', [ScheduleManagementController::class, 'editSchedule'])->name('edit');
+        Route::put('/update/{id}', [ScheduleManagementController::class, 'updateSchedule'])->name('update');
+        Route::delete('/{id}', [ScheduleManagementController::class, 'destroySchedule'])->name('destroy');
+        Route::post('/class/store', [ScheduleManagementController::class, 'storeClass'])->name('class.store');
+        Route::delete('/class/{id}', [ScheduleManagementController::class, 'destroyClass'])->name('class.destroy');
+        Route::post('/subject/store', [ScheduleManagementController::class, 'storeSubject'])->name('subject.store');
+        Route::delete('/subject/{id}', [ScheduleManagementController::class, 'destroySubject'])->name('subject.destroy');
+    });
+
+    // Student Report Management Routes
+    Route::prefix('student-reports')->name('student-reports.')->group(function () {
+        Route::get('/', [StudentReportManagementController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [StudentReportManagementController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [StudentReportManagementController::class, 'update'])->name('update');
+    });
+});
 
 /*
 |--------------------------------------------------------------------------

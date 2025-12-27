@@ -17,4 +17,9 @@ class Subject extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'subject_id', 'subject_id');
+    }
 }

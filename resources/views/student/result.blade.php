@@ -12,6 +12,26 @@
         <span class="average-score">{{ $overallAverage }}% ({{ $overallGrade }})</span>
     </div>
 
+    @if($academicStatus)
+    <div class="status-section">
+        <div class="status-header">
+            <i class="fas fa-award"></i>
+            <h3>Academic Status</h3>
+        </div>
+        <div class="status-content">
+            <div class="status-badge status-{{ strtolower(str_replace(' ', '-', $academicStatus)) }}">
+                {{ $academicStatus }}
+            </div>
+            @if($statusRemarks)
+                <div class="status-remarks">
+                    <strong><i class="fas fa-comment"></i> Remarks from Administration:</strong>
+                    <p>{{ $statusRemarks }}</p>
+                </div>
+            @endif
+        </div>
+    </div>
+    @endif
+
     <main>
         @foreach($subjects as $subjectName => $subject)
             @if($subject)
@@ -38,7 +58,6 @@
                         <span>{{ $subject->final_exam }}/30</span>
                     </li>
                 </ul>
-
             </div>
             @endif
         @endforeach
@@ -91,6 +110,107 @@
         font-weight: bold;
     }
 
+    /* Status Section Styles */
+    .status-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-left: 5px solid #007bff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .status-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .status-header i {
+        color: #007bff;
+        font-size: 24px;
+    }
+
+    .status-header h3 {
+        margin: 0;
+        color: #2d3748;
+        font-size: 20px;
+    }
+
+    .status-content {
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-excellent {
+        background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        color: #155724;
+        border: 2px solid #b1dfbb;
+    }
+
+    .status-good {
+        background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+        color: #0c5460;
+        border: 2px solid #abdde5;
+    }
+
+    .status-satisfactory {
+        background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+        color: #856404;
+        border: 2px solid #ffe69c;
+    }
+
+    .status-needs-improvement {
+        background: linear-gradient(135deg, #ffe5d0, #fdd1b5);
+        color: #974c00;
+        border: 2px solid #ffc7a3;
+    }
+
+    .status-poor {
+        background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+        color: #842029;
+        border: 2px solid #f1b0b7;
+    }
+
+    .status-remarks {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    .status-remarks strong {
+        display: block;
+        color: #2d3748;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .status-remarks strong i {
+        color: #007bff;
+        margin-right: 5px;
+    }
+
+    .status-remarks p {
+        margin: 0;
+        color: #4a5568;
+        line-height: 1.6;
+        font-size: 15px;
+    }
+
     .subject-card {
         background: #fafafa;
         margin-bottom: 20px;
@@ -115,7 +235,7 @@
     .overall-mark {
         font-size: 1.1em;
         font-weight: bold;
-        color: #28a745; 
+        color: #28a745;
     }
 
     .activity-list {
@@ -140,9 +260,9 @@
         font-weight: bold;
     }
 
-    .activity-item span:last-child { 
+    .activity-item span:last-child {
         text-align: right;
-        font-weight: bold; 
+        font-weight: bold;
         color: #333;
     }
 
@@ -163,7 +283,9 @@
         .activity-item span:last-child {
             margin-left: 10px;
         }
-
+        .status-section {
+            padding: 15px;
+        }
     }
 
 </style>
