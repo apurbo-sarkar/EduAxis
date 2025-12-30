@@ -16,6 +16,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherloginController;
 use App\Http\Controllers\Admin\ScheduleManagementController;
 use App\Http\Controllers\Admin\StudentReportManagementController;
+use App\Http\Controllers\AcademicDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,6 +56,8 @@ Route::middleware(['auth:student'])->group(function () {
         ->name('student.result');
     Route::get('/student/announcement', [AnnouncementController::class, 'index'])
         ->name('student.announcement');
+    Route::get('/student/dashboard', [AcademicDashboardController::class, 'index'])
+        ->name('student.dashboard');
 });
 
 
