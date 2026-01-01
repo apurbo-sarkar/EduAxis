@@ -141,11 +141,15 @@
                     class="nav-link {{ request()->routeIs('student.result') ? 'active' : '' }}">
                     <i class="bi bi-bar-chart-line"></i> Progress
                 </a>
+                 <!-- NEW: Payslip Link -->
+    <a href="{{ route('student.payslip') }}"
+        class="nav-link {{ request()->routeIs('student.payslip') ? 'active' : '' }}">
+        <i class="bi bi-receipt"></i> Payslip
+    </a>
 
                 <hr class="text-secondary mx-3">
 
-                <a href="{{ route('student.announcement') }}" 
-                    class="nav-link {{ request()->routeIs('student.announcement') ? 'active' : '' }}">
+                <a href="#" class="nav-link">
                     <i class="bi bi-megaphone"></i> Announcements
                 </a>
 

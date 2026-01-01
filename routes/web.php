@@ -16,6 +16,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherloginController;
 use App\Http\Controllers\Admin\ScheduleManagementController;
 use App\Http\Controllers\Admin\StudentReportManagementController;
+use App\Http\Controllers\Admin\AdminFeeController;
+use App\Http\Controllers\Student\StudentPaymentController;
 use App\Http\Controllers\AcademicDashboardController;
 
 Route::get('/', function () {
@@ -80,7 +82,7 @@ Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.attempt');
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-// Admin dashboard (protected)
+// Admin dashboard & Management (protected)
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
    
     // Dashboard
@@ -104,6 +106,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/edit/{id}', [ScheduleManagementController::class, 'editSchedule'])->name('edit');
         Route::put('/update/{id}', [ScheduleManagementController::class, 'updateSchedule'])->name('update');
         Route::delete('/{id}', [ScheduleManagementController::class, 'destroySchedule'])->name('destroy');
+        // Class & Subject Management
         Route::post('/class/store', [ScheduleManagementController::class, 'storeClass'])->name('class.store');
         Route::delete('/class/{id}', [ScheduleManagementController::class, 'destroyClass'])->name('class.destroy');
         Route::post('/subject/store', [ScheduleManagementController::class, 'storeSubject'])->name('subject.store');
@@ -116,8 +119,41 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/edit/{id}', [StudentReportManagementController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [StudentReportManagementController::class, 'update'])->name('update');
     });
+
+    // Admin Fee Management Routes (Fixed Middleware and Nesting)
+    Route::prefix('fee-management')->name('fee.')->group(function () {
+        // Fee Management Dashboard
+        Route::get('/', [AdminFeeController::class, 'index'])->name('index');
+        
+        // Invoices
+        Route::get('/invoices', [AdminFeeController::class, 'invoices'])->name('invoices');
+        Route::get('/invoices/create', [AdminFeeController::class, 'createInvoice'])->name('invoices.create');
+        Route::post('/invoices/store', [AdminFeeController::class, 'storeInvoice'])->name('invoices.store');
+        Route::get('/invoices/{id}', [AdminFeeController::class, 'viewInvoice'])->name('invoices.view');
+        
+        // Payments
+        Route::get('/payments', [AdminFeeController::class, 'payments'])->name('payments');
+        // Note: Check if you prefer 'fee.payments.record' or just 'payments.record' based on your view links
+        Route::post('/payments/record/{invoiceId}', [AdminFeeController::class, 'recordPayment'])->name('payments.record');
+        
+        // Student Fee Details
+        Route::get('/student/{studentId}', [AdminFeeController::class, 'studentFeeDetails'])->name('student.details');
+        
+        // Fee Structures
+        Route::get('/structures', [AdminFeeController::class, 'feeStructures'])->name('structures');
+        // Note: Changed to name('structures.store') for consistency
+        Route::post('/structures/store', [AdminFeeController::class, 'storeFeeStructure'])->name('structures.store');
+    });
 });
 
+// Student Payment Routes (Fixed to use auth:student)
+Route::middleware(['auth:student'])->prefix('student')->name('student.')->group(function () {
+    
+    // Payslip & Invoices
+    Route::get('/payslip', [StudentPaymentController::class, 'payslip'])->name('payslip');
+    Route::get('/invoice/{id}', [StudentPaymentController::class, 'viewInvoice'])->name('invoice.view');
+    Route::get('/payment/{invoiceId}/initiate', [StudentPaymentController::class, 'initiatePayment'])->name('payment.initiate');
+});
 /*
 |--------------------------------------------------------------------------
 | Teacher Routes

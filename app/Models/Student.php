@@ -45,7 +45,8 @@ class Student extends Authenticatable
         'date_of_birth' => 'date',
         'terms_agreed' => 'boolean',
     ];
-
+    public function getAuthIdentifierName() { return 'student_id'; }
+    public function getEmailForPasswordReset() { return $this->student_email; }
     public function mathematics()
     {
         return $this->hasOne(Mathematics::class, 'student_id', 'student_id');
@@ -59,5 +60,13 @@ class Student extends Authenticatable
     public function literature()
     {
         return $this->hasOne(Literature::class, 'student_id', 'student_id');
+    }
+     public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'student_id', 'student_id');
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'student_id', 'student_id');
     }
 }
