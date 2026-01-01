@@ -55,8 +55,10 @@ class AcademicDashboardController extends Controller
                 return $schedule;
             });
 
+        $attendanceYear = 2025;
+
         $attendance = Attendance::where('student_id',$student->student_id)
-            ->where('current_year',$now->year)
+            ->where('current_year',$attendanceYear)
             ->first();
 
         $attendanceCounts = ['P'=>0,'A'=>0,'L'=>0,'E'=>0];
@@ -104,6 +106,7 @@ class AcademicDashboardController extends Controller
 
     }
 }
+
 
 
 
