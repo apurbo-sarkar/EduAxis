@@ -19,6 +19,9 @@ use App\Http\Controllers\Admin\StudentReportManagementController;
 use App\Http\Controllers\Admin\AdminFeeController;
 use App\Http\Controllers\Student\StudentPaymentController;
 use App\Http\Controllers\AcademicDashboardController;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\StudyMaterialController;
+use App\Http\Controllers\StudentAssignmentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -60,6 +63,13 @@ Route::middleware(['auth:student'])->group(function () {
         ->name('student.announcement');
     Route::get('/student/dashboard', [AcademicDashboardController::class, 'index'])
         ->name('student.dashboard');
+});
+
+##Assignment
+
+Route::middleware(['auth:student'])->group(function () {
+    Route::get('/student/assignments', [StudentAssignmentController::class, 'index'])
+        ->name('student.assignments.index');
 });
 
 
@@ -192,3 +202,41 @@ Route::post('/teacher/logout', [TeacherloginController::class, 'logout'])
 // Update 
 Route::put('/teacher/{id}/update', [TeacherController::class, 'update'])
     ->name('teacher.update');
+
+    
+##Assignment
+
+// Assignment routes
+Route::prefix('teacher')->group(function () {
+
+// Show all assignments
+Route::get('/assignments', [AssignmentController::class, 'index'])
+    ->name('teacher.assignmentindex');
+
+// Show create assignment form
+Route::get('/assignments/create', [AssignmentController::class, 'create'])
+    ->name('assignments.create');
+
+// Store uploaded assignment
+Route::post('/assignments', [AssignmentController::class, 'store'])
+    ->name('assignments.store');
+
+// Download assignment file
+Route::get('/assignments/{id}/download', [AssignmentController::class, 'download'])
+    ->name('assignments.download');
+
+// Delete assignment
+Route::delete('/assignments/{id}', [AssignmentController::class, 'destroy'])
+    ->name('assignments.destroy');
+
+});
+
+
+##Study Materials 
+
+Route::get('/studymaterials', [StudyMaterialController::class, 'index'])
+    ->name('studymaterials.index');
+
+Route::post('/studymaterials', [StudyMaterialController::class, 'store']);
+Route::delete('/studymaterials/{id}', [StudyMaterialController::class, 'destroy']);
+

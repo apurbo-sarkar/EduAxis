@@ -135,6 +135,44 @@
             </div>
         </div>
 
+        <!-- ========================= ADD ASSIGNMENTS CARD HERE ========================= -->
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card h-100 shadow-sm border-0 d-flex flex-column">
+                <div class="card-header bg-white text-dark border-bottom">
+                    <i class="bi bi-journal-text me-2 text-primary"></i>
+                    <strong class="text-uppercase small">Assignments</strong>
+                </div>
+
+                <div class="card-body flex-grow-1 p-0">
+                    <ul class="list-group list-group-flush scrolling-widget" style="max-height: 150px; overflow-y: auto;">
+                        @if(empty($assignments))
+                            <li class="list-group-item text-center text-muted">
+                                No assignments available.
+                            </li>
+                        @else
+                            @foreach($assignments as $assignment)
+                                <li class="list-group-item d-flex align-items-start">
+                                    <i class="bi bi-circle-fill text-success fs-4 me-2"></i>
+                                    <div>
+                                        <strong>{{ $assignment->title }}</strong><br>
+                                        <span class="text-muted small">{{ $assignment->description ?? '' }}</span>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+
+                <div class="card-footer text-end bg-light border-top">
+                    <a href="{{ route('student.assignments.index') }}" class="btn btn-sm btn-outline-primary">
+                        View All Assignments <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <!-- ========================= END ASSIGNMENTS CARD ========================= -->
+
         <div class="col-12 col-md-6 col-lg-6">
             <div class="card h-100 shadow-sm border-0 d-flex flex-column">
                 <div class="card-header bg-white text-dark border-bottom">

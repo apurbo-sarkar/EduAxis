@@ -35,15 +35,20 @@
     <!-- Action Buttons Bar -->
     <div class="bg-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-center gap-4">
-            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
+            <a href="{{ route('teacher.assignmentindex') }}" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
                 Create Assignment
-            </button>
+            </a>
+
             <button class="bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700">
                 Take Attendance
             </button>
-            <button class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">
-                Upload Materials
-            </button>
+
+            <a href="{{ route('studymaterials.index') }}"
+                class="px-4 py-2 rounded-lg shadow {{ request()->is('studymaterials')? 'bg-green-700 text-white' : 'bg-green-600 text-white hover:bg-green-700' }}">
+                    Upload Materials
+            </a>
+            
             <button class="bg-orange-600 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-700">
                 Grade Submissions
             </button>
