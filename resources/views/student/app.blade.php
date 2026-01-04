@@ -141,19 +141,27 @@
                     class="nav-link {{ request()->routeIs('student.result') ? 'active' : '' }}">
                     <i class="bi bi-bar-chart-line"></i> Progress
                 </a>
+
+                <a href="{{ route('student.assignments.index') }}" 
+                class="nav-link {{ request()->routeIs('student.assignments.index') ? 'active' : '' }}">
+                    <i class="bi bi-journal-text"></i> Assignments
+                </a>
+
                  <!-- NEW: Payslip Link -->
-    <a href="{{ route('student.payslip') }}"
-        class="nav-link {{ request()->routeIs('student.payslip') ? 'active' : '' }}">
-        <i class="bi bi-receipt"></i> Payslip
-    </a>
+                <a href="{{ route('student.payslip') }}"
+                    class="nav-link {{ request()->routeIs('student.payslip') ? 'active' : '' }}">
+                    <i class="bi bi-receipt"></i> Payslip
+                </a>
 
                 <hr class="text-secondary mx-3">
 
-                <a href="#" class="nav-link">
+                <a href="{{ route('student.announcement') }}" 
+                    class="nav-link {{ request()->routeIs('student.announcement') ? 'active' : '' }}">
                     <i class="bi bi-megaphone"></i> Announcements
                 </a>
 
-                <a href="#" class="nav-link">
+                <a href="{{ route('student.profile.edit') }}" 
+                    class="nav-link {{ request()->routeIs('student.profile.edit') ? 'active' : '' }}">
                     <i class="bi bi-person-gear"></i> Profile Management
                 </a>
 

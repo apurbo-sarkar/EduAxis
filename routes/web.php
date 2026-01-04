@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentLoginController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StudentReportController;
+use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdminRegistrationController;
 use App\Http\Controllers\AdminLoginController;
@@ -63,6 +64,10 @@ Route::middleware(['auth:student'])->group(function () {
         ->name('student.announcement');
     Route::get('/student/dashboard', [AcademicDashboardController::class, 'index'])
         ->name('student.dashboard');
+    Route::get('/student/profile', [StudentProfileController::class, 'edit'])
+        ->name('student.profile.edit');
+    Route::put('/student/profile', [StudentProfileController::class, 'update'])
+        ->name('student.profile.update');
 });
 
 ##Assignment
