@@ -43,32 +43,38 @@ class AdminDashboardController extends Controller
      * @return array
      */
     protected function getDashboardFeatures(): array
-    {
-        return [
-            [
-                'title' => 'Schedule Management',
-                'description' => 'Create, edit, and manage class schedules, subjects, and time tables for all classes.',
-                'route_name' => 'admin.schedule.index',
-                'icon' => 'fas fa-calendar-alt',
-            ],
-            [
-                'title' => 'Attendance Monitoring',
-                'description' => 'View, mark, and generate attendance reports for all students and classes.',
-                'route_name' => 'admin.attendance.index',
-                'icon' => 'fas fa-clipboard-check',
-            ],
-            [
-                'title' => 'Student Report Cards',
-                'description' => 'Generate student report cards, view academic performance, and set student academic status.',
-                'route_name' => 'admin.student-reports.index',
-                'icon' => 'fas fa-file-alt',
-            ],
-            [
-                'title' => 'Fee Management',
-                'description' => 'Manage student fees, create invoices, track payments, and generate fee reports.',
-                'route_name' => 'admin.fee.index',
-                'icon' => 'fas fa-dollar-sign',
-            ],
-        ];
-    }
+{
+    return [
+        [
+            'title' => 'Student Management',
+            'description' => 'View, add, edit, and manage all student information, including personal details and academic records.',
+            'route_name' => 'admin.students.index',
+            'icon' => 'fas fa-user-graduate',
+        ],
+        [
+            'title' => 'Schedule Management',
+            'description' => 'Create, edit, and manage class schedules, subjects, and time tables for all classes.',
+            'route_name' => 'admin.schedule.index',
+            'icon' => 'fas fa-calendar-alt',
+        ],
+        [
+            'title' => 'Attendance Monitoring',
+            'description' => 'View, mark, and generate attendance reports for all students and classes.',
+            'route_name' => 'admin.attendance.index',
+            'icon' => 'fas fa-clipboard-check',
+        ],
+        [
+            'title' => 'Student Report Cards',
+            'description' => 'Generate student report cards, view academic performance, and set student academic status.',
+            'route_name' => 'admin.student-reports.index',
+            'icon' => 'fas fa-file-alt',
+        ],
+        [
+            'title' => 'Fee Management',
+            'description' => 'Manage student fees, create invoices, track payments, and generate fee reports.',
+            'route_name' => 'admin.fee.index',
+            'icon' => 'fas fa-dollar-sign',
+        ],
+    ];
+}
 }

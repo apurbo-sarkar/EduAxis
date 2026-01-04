@@ -154,6 +154,16 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         // Note: Changed to name('structures.store') for consistency
         Route::post('/structures/store', [AdminFeeController::class, 'storeFeeStructure'])->name('structures.store');
     });
+    // Student Management Routes
+    Route::prefix('students')->name('students.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\StudentManagementController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\Admin\StudentManagementController::class, 'create'])->name('create');
+    Route::post('/store', [App\Http\Controllers\Admin\StudentManagementController::class, 'store'])->name('store');
+    Route::get('/{id}', [App\Http\Controllers\Admin\StudentManagementController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [App\Http\Controllers\Admin\StudentManagementController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [App\Http\Controllers\Admin\StudentManagementController::class, 'update'])->name('update');
+    Route::delete('/{id}', [App\Http\Controllers\Admin\StudentManagementController::class, 'destroy'])->name('destroy');
+});
 });
 
 // Student Payment Routes (Fixed to use auth:student)
