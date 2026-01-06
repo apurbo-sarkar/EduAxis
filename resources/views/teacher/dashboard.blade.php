@@ -40,18 +40,20 @@
                 Create Assignment
             </a>
 
-            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700">
+            <a href="{{ route('teacher.attendance') }}"
+                   class="bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700">
                 Take Attendance
-            </button>
+            </a>
 
             <a href="{{ route('studymaterials.index') }}"
                 class="px-4 py-2 rounded-lg shadow {{ request()->is('studymaterials')? 'bg-green-700 text-white' : 'bg-green-600 text-white hover:bg-green-700' }}">
                     Upload Materials
             </a>
             
-            <button class="bg-orange-600 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-700">
+            <a href="{{ route('teacher.storemarks') }}"
+                class="bg-orange-600 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-700">
                 Grade Submissions
-            </button>
+            </a>
         </div>
     </div>
 

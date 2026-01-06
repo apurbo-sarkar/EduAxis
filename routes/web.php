@@ -23,6 +23,8 @@ use App\Http\Controllers\AcademicDashboardController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\StudyMaterialController;
 use App\Http\Controllers\StudentAssignmentController;
+use App\Http\Controllers\TeacherAttendanceController;
+use App\Http\Controllers\GradeStudentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -254,4 +256,20 @@ Route::get('/studymaterials', [StudyMaterialController::class, 'index'])
 
 Route::post('/studymaterials', [StudyMaterialController::class, 'store']);
 Route::delete('/studymaterials/{id}', [StudyMaterialController::class, 'destroy']);
+
+
+#Attendance
+
+// Show attendance page
+Route::get('/teacher/attendance', [TeacherAttendanceController::class, 'index'])
+     ->name('teacher.attendance');
+
+Route::post('/teacher/attendance/store', [TeacherAttendanceController::class, 'store'])
+     ->name('teacher.attendance.store');
+
+
+#Marking Students
+
+Route::get('/gradestudents', [GradeStudentController::class, 'index'])->name('teacher.gradestudents');
+Route::post('/gradestudents', [GradeStudentController::class, 'storemarks'])->name('teacher.storemarks');
 
