@@ -13,72 +13,84 @@ return new class extends Migration
      */
     public function up(): void
     {
+        
         // ====================================================
-        // STUDENTS TABLE - Add missing columns
+        // STUDENTS TABLE - Add missing columns (SAFE VERSION)
         // ====================================================
         if (Schema::hasTable('students')) {
+
             Schema::table('students', function (Blueprint $table) {
-                // Add new columns if they don't exist
-                if (!Schema::hasColumn('students', 'student_id')) {
-                    $table->string('student_id')->nullable()->after('id');
-                }
+
+                // DO NOT touch primary key (student_id)
+
                 if (!Schema::hasColumn('students', 'full_name')) {
-                    $table->string('full_name')->nullable()->after('student_id');
+                    $table->string('full_name')->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'email')) {
-                    $table->string('email')->nullable()->after('full_name');
+                    $table->string('email')->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'phone')) {
-                    $table->string('phone', 20)->nullable()->after('email');
+                    $table->string('phone', 20)->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'class')) {
-                    $table->string('class', 50)->nullable()->after('phone');
+                    $table->string('class', 50)->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'section')) {
-                    $table->string('section', 10)->nullable()->after('class');
+                    $table->string('section', 10)->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'roll_number')) {
-                    $table->string('roll_number', 50)->nullable()->after('section');
+                    $table->string('roll_number', 50)->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'guardian_name')) {
-                    $table->string('guardian_name')->nullable()->after('roll_number');
+                    $table->string('guardian_name')->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'guardian_phone')) {
-                    $table->string('guardian_phone', 20)->nullable()->after('guardian_name');
+                    $table->string('guardian_phone', 20)->nullable();
                 }
+
                 if (!Schema::hasColumn('students', 'status')) {
-                    $table->enum('status', ['active', 'inactive', 'suspended'])->default('active')->after('guardian_phone');
+                    $table->enum('status', ['active', 'inactive', 'suspended'])
+                        ->default('active');
                 }
             });
 
-            // Copy data from old columns to new columns
+            // ====================================================
+            // DATA MIGRATION (NO PRIMARY KEY MODIFICATION)
+            // ====================================================
             DB::statement("
-                UPDATE students 
-                SET 
+                UPDATE students
+                SET
                     full_name = COALESCE(full_name, 'Student Name'),
-                    email = COALESCE(student_email, email, CONCAT('student', id, '@temp.com')),
-                    class = COALESCE(class, student_class),
-                    student_id = COALESCE(student_id, CONCAT('STU', LPAD(id, 5, '0')))
+                    email = COALESCE(
+                        student_email,
+                        email,
+                        CONCAT('student', student_id, '@temp.com')
+                    ),
+                    class = COALESCE(class, student_class)
             ");
 
-            // Make required columns NOT NULL
+            // ====================================================
+            // ENFORCE NOT NULL WHERE REQUIRED
+            // ====================================================
             Schema::table('students', function (Blueprint $table) {
-                $table->string('student_id')->nullable(false)->change();
                 $table->string('full_name')->nullable(false)->change();
                 $table->string('email')->nullable(false)->change();
             });
 
-            // Add unique indexes
-            try {
-                DB::statement('ALTER TABLE students ADD UNIQUE KEY unique_student_id (student_id)');
-            } catch (\Exception $e) {
-                // Index might already exist
-            }
-            
+            // ====================================================
+            // UNIQUE INDEXES
+            // ====================================================
             try {
                 DB::statement('ALTER TABLE students ADD UNIQUE KEY unique_student_email (email)');
             } catch (\Exception $e) {
-                // Index might already exist
+                // already exists
             }
         }
 

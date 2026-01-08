@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('gender', 50);
             $table->string('student_class'); 
             $table->string('blood_group', 5)->nullable();
-            $table->string('student_email')->nullable(); 
+            $table->string('student_email')->nullable()->unique(); 
             $table->string('password'); 
             $table->rememberToken(); 
             $table->string('parent1_name');
